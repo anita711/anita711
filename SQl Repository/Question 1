@@ -1,1 +1,28 @@
-Hii This is my Question 1
+Q: A problem where we need to identify cities where covid cases **increasing everyday. We will use SQL analytic window RANK function to solve the problem.
+
+Schema: City(VARCHAR), Days(DATE), Cases(INT)
+
+Define Problem: City Names, where case INCREASING(order by cases asc), EVERYDAY(DATE ORDER BY ASC)
+
+with CTE as(Select CITY, 
+rank() over(partition by CITY order by DAYS ASC) as rnD,
+RANK() OVER(PARTITION BY CITY ORDER BY CASES ASC) AS rnc,
+rank() over(partition by CITY order by DAYS ASC) - RANK() OVER(PARTITION BY CITY ORDER BY CASES ASC) as rank_diff
+from table
+)
+
+select CITY
+from CTE
+group by city
+having count(distinct rank_diff) = 1 and avg(rank_diff) = 0
+
+ANOTHER APPROACH - 
+
+with cte as (SELECT *,
+CASES - LAG(CASES,1, 0) OVER(PARTITION BY CITY ORDER BY DAYS) AS lag_value // here lag would give zero for first row instead NULL return
+from table
+)
+select DISTINCT city from cte 
+where city NOT IN(
+            Select city FROM CTE where lag_value <= 0);
+
