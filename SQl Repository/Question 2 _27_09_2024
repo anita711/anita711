@@ -1,0 +1,16 @@
+Retrieve the total sales amount for each product category in the month of February 2022, 
+only including sales made on weekdays (Monday to Friday). Display the results in ascending order of total sales.
+
+________________
+SELECT Category, 
+        SUM(sales) as Total_sales
+from Table
+where Year(Order_date) ='2022'
+AND Month(order_date) = 2
+and DATEPART(Weekday, order_date) NOT IN (1,7)
+Group by Category
+Order by Total_sales
+
+____________
+
+DATEPART(WEEKDAY, order_date) NOT IN (1, 7) -- Excludes sales that occurred on Sundays (1) and Saturdays (7).
