@@ -5,7 +5,7 @@ Write an SQL query to find the top 2 most popular tracks based on number of play
 
 ________
 
-Schema: Playlist_ID, User_id
+Schema:TRackID,  Playlist_ID, User_id
 
 Select distinct( Playlist_ID)
 from table
