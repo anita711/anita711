@@ -1,0 +1,16 @@
+Suppose you are a data analyst working for Spotify (a music streaming service company) . 
+Your company is interested in analyzing user engagement with playlists and wants to identify the most popular tracks 
+among all the playlists.
+Write an SQL query to find the top 2 most popular tracks based on number of playlists they are part of. 
+
+________
+
+Schema: Playlist_ID, User_id
+
+Select distinct( Playlist_ID)
+from table
+where playlist_id IN
+                  (Select Playlist_ID from table 
+                    group by playlist_ID having count(user_ID) >=2 )
+GROUP BY track_id
+ORDER BY count(DISTINCT playlist_id) DESC limit 2
